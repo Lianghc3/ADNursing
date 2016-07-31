@@ -9,12 +9,16 @@ import java.util.Date;
  * Created by huacan liang on 2016/7/10.
  */
 public class ReviewData {
+    private int review_id;
     private UserData user;
     private String content;
     private int floor;
     private String time;
     private int[] image;
     private String imageDir;
+    private int postId;
+    private String postImageDir;
+    private String postTitle;
 
     private int[] defultImage = {};
 
@@ -25,23 +29,29 @@ public class ReviewData {
         this.imageDir = imageDir;
     }
 
-    public ReviewData(UserData user, String content, int floor, String time, int[] image) {
+    public ReviewData(UserData user, String content, String time, String imageDir, int postId, String postImageDir, String postTitle) {
         this.user = user;
         this.content = content;
-        this.floor = floor;
         this.time = time;
-        this.image = image;
-        if (image.length <= 0) {
-            this.image = defultImage;
-        }
+        this.imageDir = imageDir;
+        this.postId = postId;
+        this.postImageDir = postImageDir;
+        this.postTitle = postTitle;
     }
 
-    public ReviewData(UserData user, String content, int floor, String time) {
+    public ReviewData(int review_id, UserData user, String content, String time, String imageDir, int postId, String postImageDir, String postTitle) {
+        this.review_id = review_id;
         this.user = user;
         this.content = content;
-        this.floor = floor;
         this.time = time;
-        this.image = defultImage;
+        this.imageDir = imageDir;
+        this.postId = postId;
+        this.postImageDir = postImageDir;
+        this.postTitle = postTitle;
+    }
+
+    public int getReview_id() {
+        return review_id;
     }
 
     public UserData getUser() {
@@ -95,12 +105,23 @@ public class ReviewData {
     }
 
     public String getImageDir() {
-
         return imageDir;
     }
 
     public void setImageDir(String imageDir) {
         this.imageDir = imageDir;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public String getPostImageDir() {
+        return postImageDir;
+    }
+
+    public int getPostId() {
+        return postId;
     }
 
     public String getModifiedTime() {

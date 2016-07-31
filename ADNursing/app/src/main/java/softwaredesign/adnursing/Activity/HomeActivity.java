@@ -1,19 +1,22 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +28,19 @@ import softwaredesign.adnursing.Custom.MyListView;
 import softwaredesign.adnursing.Data.PostData;
 import softwaredesign.adnursing.Adapter.PostPreviewAdapter;
 import softwaredesign.adnursing.R;
-import softwaredesign.adnursing.Utils.HttpUtils3;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView bottomHomeIcon;
-    private ImageView bottomCommunicateIcon;
-    private ImageView bottomTestIcon;
-    private ImageView bottomMyIcon;
-    private LinearLayout post_info_1;
-    private LinearLayout post_info_2;
-    private LinearLayout post_info_3;
+    private LinearLayout bottomHomeIcon;
+    private LinearLayout bottomCommunicateIcon;
+    private LinearLayout bottomTestIcon;
+    private LinearLayout bottomMyIcon;
+
+    private ImageView top_bar_search_icon;
+
+    private RelativeLayout post_info_1;
+    private RelativeLayout post_info_2;
+    private RelativeLayout post_info_3;
     private ViewPager bannerViewPager;
     private LinearLayout bannerPointLayout;
     private MyListView notice_post_list;
@@ -47,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private int pointIndex = 0;                     // banner指示点的下标
     private boolean isStop = false;                 // 判断banner轮换是否停止
     private List<ImageView> imageViewList;
-    private int[] bannerImages = {R.mipmap.banner_2, R.mipmap.banner_3, R.mipmap.banner_4, R.mipmap.banner_1};  // banner上的四幅图片
+    private int[] bannerImages = {R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};  // banner上的四幅图片
     // 分别保存三个栏目的帖子信息
     private ArrayList<PostData> noticePostDatas;
     private ArrayList<PostData> newsPostDatas;
@@ -62,7 +67,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case 0x001:
                     final PostPreviewAdapter postPreviewAdapter1 = new PostPreviewAdapter(HomeActivity.this, noticePostDatas);
-//                    System.out.println("1 "+noticePostDatas.get(0).getTitle());
                     notice_post_list.setAdapter(postPreviewAdapter1);
                     notice_post_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -75,12 +79,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             bundle.putString("userImage", postPreviewAdapter1.getItem(i).getUser().getImageDir());
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
                     break;
                 case 0x002:
                     final PostPreviewAdapter postPreviewAdapter2 = new PostPreviewAdapter(HomeActivity.this, newsPostDatas);
-//                    System.out.println("2 "+newsPostDatas.get(0).getTitle());
                     news_post_list.setAdapter(postPreviewAdapter2);
                     news_post_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -93,12 +97,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             bundle.putString("userImage", postPreviewAdapter2.getItem(i).getUser().getImageDir());
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
                     break;
                 case 0x003:
                     final PostPreviewAdapter postPreviewAdapter3 = new PostPreviewAdapter(HomeActivity.this, researchPostDatas);
-//                    System.out.println("3 "+researchPostDatas.get(0).getTitle());
                     research_post_list.setAdapter(postPreviewAdapter3);
                     research_post_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -111,6 +115,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             bundle.putString("userImage", postPreviewAdapter3.getItem(i).getUser().getImageDir());
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
                     break;
@@ -156,14 +161,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initView() {
         // 获取View
-        bottomHomeIcon = (ImageView) findViewById(R.id.bottom_bar_home_icon);
-        bottomCommunicateIcon = (ImageView) findViewById(R.id.bottom_bar_communicate_icon);
-        bottomTestIcon = (ImageView) findViewById(R.id.bottom_bar_test_icon);
-        bottomMyIcon = (ImageView) findViewById(R.id.bottom_bar_my_icon);
+        View botton_bar = (View) findViewById(R.id.botton_bar);
+        bottomHomeIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_home);
+        bottomCommunicateIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_communicate);
+        bottomTestIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_test);
+        bottomMyIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_my);
 
-        post_info_1 = (LinearLayout) findViewById(R.id.post_info_1);
-        post_info_2 = (LinearLayout) findViewById(R.id.post_info_2);
-        post_info_3 = (LinearLayout) findViewById(R.id.post_info_3);
+        TextView tv = (TextView) botton_bar.findViewById(R.id.bottom_bar_home_txt);
+        tv.setTextColor(Color.BLACK);
+
+        top_bar_search_icon = (ImageView) findViewById(R.id.top_bar_search_icon);
+
+        post_info_1 = (RelativeLayout) findViewById(R.id.post_info_1);
+        post_info_2 = (RelativeLayout) findViewById(R.id.post_info_2);
+        post_info_3 = (RelativeLayout) findViewById(R.id.post_info_3);
 
         bannerViewPager = (ViewPager) findViewById(R.id.home_banner);
         bannerPointLayout = (LinearLayout) findViewById(R.id.home_banner_points);
@@ -177,6 +188,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         bottomCommunicateIcon.setOnClickListener(this);
         bottomTestIcon.setOnClickListener(this);
         bottomMyIcon.setOnClickListener(this);
+
+        top_bar_search_icon.setOnClickListener(this);
 
         post_info_1.setOnClickListener(this);
         post_info_2.setOnClickListener(this);
@@ -275,21 +288,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.bottom_bar_communicate_icon:
+            case R.id.bottom_bar_communicate:
                 intent = new Intent(HomeActivity.this, CommunicateActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_my_icon:
+            case R.id.bottom_bar_my:
                 intent = new Intent(HomeActivity.this, MyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_test_icon:
+            case R.id.bottom_bar_test:
                 intent = new Intent(HomeActivity.this, TestActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.top_bar_search_icon:
-                intent = new Intent(HomeActivity.this, NewTestActivity.class);
+                intent = new Intent(HomeActivity.this, TTTestActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.post_info_1:
                 intent = new Intent(HomeActivity.this, PostSetActivity.class);
@@ -297,6 +314,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("title", "护理须知");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.post_info_2:
                 intent = new Intent(HomeActivity.this, PostSetActivity.class);
@@ -304,6 +322,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("title", "临床新闻");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.post_info_3:
                 intent = new Intent(HomeActivity.this, PostSetActivity.class);
@@ -311,6 +330,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("title", "研究前沿");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

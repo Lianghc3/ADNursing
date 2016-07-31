@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,42 +13,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import softwaredesign.adnursing.Custom.MyListView;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.Data.PostData;
 import softwaredesign.adnursing.R;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class PostPreviewDetailAdapter extends BaseAdapter {
 
     private Context myContext;              // 上下文
     private ArrayList<PostData> myPostData; // 数据列表
-    private ImageView sculptureView[];      // 每个列表对应头像的View
-    private ImageView imageView[];          // 每个类表对应配图的View
 
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 1:
-                    Bitmap bm1 = msg.getData().getParcelable("bitmap");
-                    sculptureView[msg.arg1].setImageBitmap(bm1);
-                    break;
-                case 2:
-                    Bitmap bm2 = msg.getData().getParcelable("bitmap");
-                    imageView[msg.arg1].setImageBitmap(bm2);
-                    break;
-            }
-        }
-    };
 
     public PostPreviewDetailAdapter(Context myContext, ArrayList<PostData> myPostData) {
         this.myContext = myContext;
         this.myPostData = myPostData;
-        if (myPostData != null) {
-            sculptureView = new ImageView[myPostData.size()];
-            imageView = new ImageView[myPostData.size()];
-        }
     }
 
     @Override
@@ -90,13 +74,8 @@ public class PostPreviewDetailAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        System.out.println("getView " + i + ": " + convertView);
-
-        sculptureView[i] = holder.vSculpture;
-        imageView[i] = holder.vImage;
-
-        getImage(myPostData.get(i).getUser().getImageDir(), i, 1);
-        getImage(myPostData.get(i).getImagesDir(), i, 2);
+        ImageUtils.glideGetImage(myContext, myPostData.get(i).getImagesDir(), holder.vImage, R.mipmap.image_default);
+        ImageUtils.glideGetImage(myContext, myPostData.get(i).getUser().getImageDir(), holder.vSculpture, R.mipmap.sculpture_unknown_default);
 
         holder.vName.setText(myPostData.get(i).getUser().getName());
         holder.vTitle.setText(myPostData.get(i).getTitle());
@@ -130,13 +109,10 @@ public class PostPreviewDetailAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    /**
-     * 向服务器获取配图
-     * @param imagesDir
-     * @param i
-     */
-    private void getImage(String imagesDir, int i, int what) {
+
+    private void glideGetImage(String imagesDir, ImageView imageView, int defaultImage) {
         if (imagesDir.equals("")) {
+            imageView.setImageResource(defaultImage);
             return;
         }
         String tmpString;
@@ -145,20 +121,7 @@ public class PostPreviewDetailAdapter extends BaseAdapter {
         } else {
             tmpString = imagesDir.substring(0, imagesDir.indexOf("|"));
         }
-        final String dir = tmpString;
-        final int finalI = i;
-        final int finalWhat = what;
-        new Thread() {
-            public void run() {
-                Bitmap bm = HttpUtils.loadImage(dir);
-                Message msg = Message.obtain();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("bitmap", bm);
-                msg.what = finalWhat;
-                msg.arg1 = finalI;
-                msg.setData(bundle);
-                handler.sendMessage(msg);
-            };
-        }.start();
+        tmpString = HttpUtils.getIp()+"/ADNursingServer/res/image/"+tmpString;
+        Glide.with(myContext).load(tmpString).placeholder(defaultImage).centerCrop().into(imageView);
     }
 }

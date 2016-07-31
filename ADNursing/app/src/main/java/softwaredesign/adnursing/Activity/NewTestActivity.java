@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -76,7 +77,7 @@ public class NewTestActivity extends AppCompatActivity implements NewTestFragmen
         fg.add(NewTestFragment.newInstance(1, 3, items_page_1));
         fg.add(NewTestFragment.newInstance(2, 3, items_page_2));
         fg.add(NewTestFragment.newInstance(3, 3, items_page_3));
-        getSupportFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(currentPage)).commit();
+        getFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(currentPage)).commit();
     }
 
 
@@ -97,7 +98,7 @@ public class NewTestActivity extends AppCompatActivity implements NewTestFragmen
     @Override
     public void nextPage(int checkedNum) {
         checkNumPerPage[currentPage] = checkedNum;
-        getSupportFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(++currentPage)).commit();
+        getFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(++currentPage)).commit();
     }
 
 
@@ -108,7 +109,7 @@ public class NewTestActivity extends AppCompatActivity implements NewTestFragmen
     @Override
     public void lastPage(int checkedNum) {
         checkNumPerPage[currentPage] = checkedNum;
-        getSupportFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(--currentPage)).commit();
+        getFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, fg.get(--currentPage)).commit();
     }
 
 
@@ -124,7 +125,7 @@ public class NewTestActivity extends AppCompatActivity implements NewTestFragmen
             score += checkNumPerPage[i];
         }
         rfg = NewTestResultFragment.newInstance("name", score);
-        getSupportFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, rfg).commit();
+        getFragmentManager().beginTransaction().replace(R.id.new_test_fragment_container, rfg).commit();
     }
 
 
@@ -137,6 +138,7 @@ public class NewTestActivity extends AppCompatActivity implements NewTestFragmen
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

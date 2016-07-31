@@ -14,11 +14,13 @@
         android:paddingRight="20dp">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/top_bar_back_icon"
             android:layout_centerVertical="true"
-            android:src="@mipmap/btn_back_arrow" />
+            android:src="@mipmap/btn_back_arrow"
+            android:padding="12dp"
+            android:layout_marginLeft="-12dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +29,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:text="发新帖" />
 
         <TextView
@@ -36,14 +38,16 @@
             android:id="@+id/top_bar_release_text"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:textSize="20dp"
-            android:text="发布" />
+            android:textSize="16dp"
+            android:text="发布"
+            android:padding="10dp"
+            android:layout_marginRight="-10dp" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="2px"
         android:id="@+id/top_bar_divd"
         android:background="@color/DivdGray"
         android:layout_below="@id/top_bar"/>
@@ -87,7 +91,7 @@
                             android:layout_height="wrap_content"
                             android:text="标题"
                             android:id="@+id/post_edit_title_txt"
-                            android:textSize="18dp"
+                            android:textSize="16dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true" />
 
@@ -95,7 +99,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:id="@+id/post_edit_title_icon"
-                            android:src="@mipmap/post_edit_pen"
+                            android:src="@mipmap/profile_edit_pen_icon"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true" />
 
@@ -111,7 +115,7 @@
                             android:layout_toRightOf="@id/post_edit_title_txt"
                             android:layout_toLeftOf="@id/post_edit_title_icon"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginRight="10dp"
                             android:maxLines="1"
                             android:maxLength="12"
                             android:cursorVisible="true"
@@ -144,28 +148,18 @@
                             android:layout_height="wrap_content"
                             android:text="分类"
                             android:id="@+id/post_edit_type_txt"
-                            android:textSize="18dp"
+                            android:textSize="16dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true" />
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:id="@+id/post_edit_type_icon"
-                            android:src="@mipmap/post_edit_pen"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true" />
-
                         <Spinner
-                            android:layout_width="100dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/post_edit_type_spinner"
-                            android:layout_toRightOf="@id/post_edit_type_txt"
-                            android:layout_toLeftOf="@id/post_edit_type_icon"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="5dp"
                             android:spinnerMode="dropdown"
-                            android:textAlignment="textEnd" />
+                            android:textAlignment="textEnd"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="-5dp" />
 
 
                     </RelativeLayout>
@@ -182,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/post_edit_content_field"
-                        android:hint="你的疑惑或者想分享的内容"
+                        android:hint="填写你的疑惑或者想分享的内容"
                         android:background="@null"
                         android:textSize="16dp"
                         android:inputType="textMultiLine"
@@ -205,13 +199,14 @@
 
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:id="@+id/post_edit_upload_image"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:src="@mipmap/edit_image"
                         android:adjustViewBounds="true"
-                        android:layout_below="@id/post_edit_content_field"/>
+                        android:layout_below="@id/post_edit_content_field"
+                        android:padding="5dp" />
 
                 </RelativeLayout>
 

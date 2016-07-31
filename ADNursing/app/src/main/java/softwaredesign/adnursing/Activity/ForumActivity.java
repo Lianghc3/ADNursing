@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,8 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import cn.qqtheme.framework.picker.FilePicker;
 import softwaredesign.adnursing.ApplicationManager;
@@ -32,6 +37,7 @@ import softwaredesign.adnursing.Data.PostData;
 import softwaredesign.adnursing.R;
 import softwaredesign.adnursing.Adapter.ReviewAdapter;
 import softwaredesign.adnursing.Data.ReviewData;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class ForumActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +53,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
     private EditText review_text_upload_text;
     private Button review_image_upload_button;
     private ImageView forum_collection_icon;
+    private TextView top_bar_info_txt;
 
     private ImageView top_bar_back_icon;
     private LinearLayout formu_background;
@@ -54,12 +61,8 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
     private SwipeRefreshLayout forum_swipe_ly;
 
     private int postId;
-    private String userName;
     private String imageDir;
-    private String userImage;
-    private PostData postData;
-    private Bitmap postBitmaps[] = new Bitmap[3];                   // 保存帖子的图片
-    private Bitmap userSculpture;                                   // 保存作者头像
+    private PostData postData;     // 保存作者头像
     private int isCollected = 0;
 
     private ArrayList<String> imagePath = new ArrayList<>();        // 保存图片在服务器的路径
@@ -73,24 +76,28 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 // 设置post的三张配图
-                case 0x000:
-                    imageViews[msg.arg1].setImageBitmap(postBitmaps[msg.arg1]);
-                    break;
+//                case 0x000:
+//                    imageViews[msg.arg1].setImageBitmap(postBitmaps[msg.arg1]);
+//                    break;
                 // 设置post文字部分
                 case 0x004:
+                    top_bar_info_txt.setText(postData.getType());
                     main_name.setText(postData.getUser().getName());
                     main_title.setText(postData.getTitle());
                     main_content.setText(postData.getContent());
                     main_time.setText(postData.getModifiedTime());
                     main_type.setText(postData.getType());
                     main_visitor_num.setText(postData.getVisitorNum()+"");
+                    ImageUtils.glideGetImage(ForumActivity.this, postData.getUser().getImageDir(), main_sculpture, R.mipmap.sculpture_unknown_default);
+                    List<ImageView> vImages = Arrays.asList(imageViews[0], imageViews[1], imageViews[2]);
+                    ImageUtils.glideGetImages(ForumActivity.this, postData.getImagesDir(), vImages, R.mipmap.image_default);
                     break;
                 // 设置作者头像
-                case 0x005:
-                    if (userSculpture != null) {
-                        main_sculpture.setImageBitmap(userSculpture);
-                    }
-                    break;
+//                case 0x005:
+//                    if (userSculpture != null) {
+//                        main_sculpture.setImageBitmap(userSculpture);
+//                    }
+//                    break;
                 // 初试化评论
                 case 0x006:
                     setReviews();
@@ -161,6 +168,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
         main_type = (TextView) findViewById(R.id.main_type);
         main_visitor_num = (TextView) findViewById(R.id.main_visitor_num);
         forum_collection_icon = (ImageView) findViewById(R.id.forum_collection_icon);
+        top_bar_info_txt = (TextView) findViewById(R.id.top_bar_info_txt);
 
         imageViews[0] = (ImageView) findViewById(R.id.main_image_1);
         imageViews[1] = (ImageView) findViewById(R.id.main_image_2);
@@ -236,9 +244,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
     public void setPostMain() {
         Intent intent = getIntent();
         postId = intent.getIntExtra("postId", -1);
-        userName = intent.getStringExtra("userName");
         imageDir = intent.getStringExtra("imageDir");
-        userImage = intent.getStringExtra("userImage");
         // 若没有图片则隐藏ImageView
         if (imageDir.equals("")) {
             findViewById(R.id.main_image_set).setVisibility(View.GONE);
@@ -269,19 +275,19 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
         new Thread() {
             public void run() {
                 // 请求用户头像，并通过handler设置
-                userSculpture = HttpUtils.loadImage(userImage);
-                handler.sendEmptyMessage(0x005);
+//                userSculpture = HttpUtils.loadImage(userImage);
+//                handler.sendEmptyMessage(0x005);
                 // 请求文字信息，并通过handler设置
                 postData = HttpUtils.getPostWithId(postId);
                 handler.sendEmptyMessage(0x004);
                 // 请求帖子配图，并通过handler设置
-                for (int i = 0; i < postImageDir.length; i++) {
-                    postBitmaps[i] = HttpUtils.loadImage(postImageDir[i]);
-                    Message msg = Message.obtain();
-                    msg.what = 0x000;
-                    msg.arg1 = i;
-                    handler.sendMessage(msg);
-                }
+//                for (int i = 0; i < postImageDir.length; i++) {
+//                    postBitmaps[i] = HttpUtils.loadImage(postImageDir[i]);
+//                    Message msg = Message.obtain();
+//                    msg.what = 0x000;
+//                    msg.arg1 = i;
+//                    handler.sendMessage(msg);
+//                }
                 // 请求评论信息
                 reviewDatas = HttpUtils.getReciewsWithPostId(postId);
                 System.out.println(reviewDatas.size());
@@ -313,6 +319,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.formu_background:
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

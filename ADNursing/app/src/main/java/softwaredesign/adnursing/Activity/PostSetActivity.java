@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,7 +21,7 @@ import softwaredesign.adnursing.Data.PostData;
 import softwaredesign.adnursing.Adapter.PostPreviewAdapter;
 import softwaredesign.adnursing.R;
 
-public class PostSetActivity extends AppCompatActivity  implements View.OnClickListener {
+public class PostSetActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView top_bar_back_icon;
     private TextView top_bar_info_txt;
@@ -51,6 +52,7 @@ public class PostSetActivity extends AppCompatActivity  implements View.OnClickL
                             bundle.putString("userImage", postPreviewAdapter.getItem(i).getUser().getImageDir());
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
                     refresh_ly.setRefreshing(false);
@@ -128,6 +130,7 @@ public class PostSetActivity extends AppCompatActivity  implements View.OnClickL
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

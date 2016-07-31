@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +35,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean isCache = false;
 
     private SharedPreferences sp;
-
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
     }
 
 
@@ -178,6 +179,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.register_text:
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

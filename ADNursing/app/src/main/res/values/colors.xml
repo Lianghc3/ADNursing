@@ -9,6 +9,8 @@
     <color name="BgGray">#f0f0f0</color>
     <color name="DivdGray">#d4d4d4</color>
     <color name="CubeGray">#DEDEDE</color>
-    <color name="SDarkGray">#2a2a2a</color>
+    <color name="DarkCubeGray">#B7B7B7</color>
+    <color name="SDarkGray">#5B5B5B</color>
     <color name="CheckedBlue">#7BBDFF</color>
+    <color name="GrayBorder">#808080</color>
 </resources>

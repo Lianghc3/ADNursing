@@ -1,8 +1,10 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +35,10 @@ import softwaredesign.adnursing.Data.UserData;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView bottomHomeIcon;
-    private ImageView bottomCommunicateIcon;
-    private ImageView bottomTestIcon;
-    private ImageView bottomMyIcon;
+    private LinearLayout bottomHomeIcon;
+    private LinearLayout bottomCommunicateIcon;
+    private LinearLayout bottomTestIcon;
+    private LinearLayout bottomMyIcon;
 
     private EditText test_init_info_birth;
     private Spinner test_init_info_gender_spinner;
@@ -65,6 +68,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                         bundle.putString("testBirth", userData.getTestBirth());
                         intent.putExtras(bundle);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         finish();
                     }
                     break;
@@ -72,11 +76,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(TestActivity.this, "保存测试者信息成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(TestActivity.this, TestResultActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("name", name);
-                    bundle.putString("gender", gender);
-                    bundle.putString("birth", birth);
+                    bundle.putString("testName", name);
+                    bundle.putString("testGender", gender);
+                    bundle.putString("testBirth", birth);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                     finish();
                     break;
                 case 0x003:
@@ -103,6 +108,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             bundle.putString("testBirth", birth);
             intent.putExtras(bundle);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
             finish();
         }
 
@@ -130,10 +136,14 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initView() {
         // 获取View
-        bottomHomeIcon = (ImageView) findViewById(R.id.bottom_bar_home_icon);
-        bottomCommunicateIcon = (ImageView) findViewById(R.id.bottom_bar_communicate_icon);
-        bottomTestIcon = (ImageView) findViewById(R.id.bottom_bar_test_icon);
-        bottomMyIcon = (ImageView) findViewById(R.id.bottom_bar_my_icon);
+        View botton_bar = (View) findViewById(R.id.botton_bar);
+        bottomHomeIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_home);
+        bottomCommunicateIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_communicate);
+        bottomTestIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_test);
+        bottomMyIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_my);
+
+        TextView tv = (TextView) botton_bar.findViewById(R.id.bottom_bar_test_txt);
+        tv.setTextColor(Color.BLACK);
 
         test_init_info_gender_spinner = (Spinner) findViewById(R.id.test_init_info_gender_spinner);
         test_init_info_name = (EditText) findViewById(R.id.test_init_info_name);
@@ -226,17 +236,20 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.bottom_bar_home_icon:
+            case R.id.bottom_bar_home:
                 intent = new Intent(TestActivity.this, HomeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_communicate_icon:
+            case R.id.bottom_bar_communicate:
                 intent = new Intent(TestActivity.this, CommunicateActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_my_icon:
+            case R.id.bottom_bar_my:
                 intent = new Intent(TestActivity.this, MyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.test_info_submit_button:
                 if (test_init_info_name.getText().toString().equals("")) {

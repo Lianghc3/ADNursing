@@ -6,8 +6,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingBottom="10dp">
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp">
 
         <softwaredesign.adnursing.Custom.RoundImageView
             xmlns:maple="http://schemas.android.com/apk/res-auto"
@@ -17,7 +19,7 @@
             android:scaleType="centerInside"
             android:src="@mipmap/sculpture_unknown_default"
             maple:maskType="CIRCLE"
-            maple:borderWidth_Ri="2dp"
+            maple:borderWidth_Ri="1px"
             maple:borderColor_Ri="@color/DivdGray"/>
 
         <TextView

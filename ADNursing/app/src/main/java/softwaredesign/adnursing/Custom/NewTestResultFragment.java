@@ -1,10 +1,10 @@
 package softwaredesign.adnursing.Custom;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import softwaredesign.adnursing.Data.UserData;
 import softwaredesign.adnursing.HttpApplication;
 import softwaredesign.adnursing.R;
 import softwaredesign.adnursing.Utils.HttpUtils;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class NewTestResultFragment extends Fragment {
 
@@ -29,14 +30,17 @@ public class NewTestResultFragment extends Fragment {
     private TextView new_test_result_advise;
     private Button new_test_result_back_button;
     private ImageView new_test_result_sculpture;
-    private Bitmap sculpture;
-
+    private UserData userData;
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0x001:
-                    new_test_result_sculpture.setImageBitmap(sculpture);
+                    if (userData.getImageDir().equals("")) {
+                        new_test_result_sculpture.setImageResource(R.mipmap.sculpture_unknown_default);
+                    } else {
+                        ImageUtils.glideGetImage(NewTestResultFragment.this.getActivity(), userData.getImageDir(), new_test_result_sculpture, R.mipmap.sculpture_unknown_default);
+                    }
                     break;
             }
         }
@@ -103,8 +107,7 @@ public class NewTestResultFragment extends Fragment {
     private void getSculpture() {
         new Thread() {
             public void run() {
-                UserData userData = HttpUtils.getUserInfoWithId(HttpApplication.getUserId());
-                sculpture = HttpUtils.loadImage(userData.getImageDir());
+                userData = HttpUtils.getUserInfoWithId(HttpApplication.getUserId());
                 handler.sendEmptyMessage(0x001);
             };
         }.start();

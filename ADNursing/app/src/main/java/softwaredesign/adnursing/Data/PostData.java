@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import softwaredesign.adnursing.Utils.HttpUtils;
+
 /**
  * Created by huacan liang on 2016/7/9.
  */

@@ -6,18 +6,22 @@
     tools:context=".Activity.TTTestActivity">
 
 
-    <CalendarView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/calendarView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
+        android:id="@+id/tttest_image"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="101dp" />
+        android:layout_marginTop="138dp"
+        android:src="@mipmap/image_default"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tttest_name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

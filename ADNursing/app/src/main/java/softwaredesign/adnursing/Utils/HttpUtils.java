@@ -61,6 +61,7 @@ public class HttpUtils {
     private static String getPostWithUserIdUrl = ip + "/ADNursingServer/servlet/ViewOwnerPostServlet?mode=android";
     private static String getPostNumdUrl = ip + "/ADNursingServer/servlet/ViewKindNumServlet?mode=android";
     private static String getReviewWithPostIdUrl = ip + "/ADNursingServer/servlet/ViewPostCommentServlet?mode=android";
+    private static String getReviewWithUserIdUrl = ip + "/ADNursingServer/servlet/ViewOwnerCommentServlet?mode=android";
     private static String uploadPostUrl = ip + "/ADNursingServer/android/addPost.jsp?mode=android";
     private static String uploadPostImageUrl = ip + "/ADNursingServer/servlet/AddPostImgUrlServlet?mode=android";
     private static String uploadReviewUrl = ip + "/ADNursingServer/servlet/AddCommentInforServlet?mode=android";
@@ -72,11 +73,15 @@ public class HttpUtils {
     private static String uploadTestInfoUrl = ip + "/ADNursingServer/android/updateTestInfor.jsp?mode=android";
     private static String uploadTestResultUrl = ip + "/ADNursingServer/android/addTest.jsp?mode=android";
     private static String deletePostUrl = ip + "/ADNursingServer/servlet/DelPostServlet?mode=android";
+    private static String deleteReviewUrl = ip + "/ADNursingServer/servlet/DelCommentServlet?mode=android";
     private static String collectPostUrl = ip + "/ADNursingServer/android/addFavorites.jsp?mode=android";
     private static String cancelCollectedPostUrl = ip + "/ADNursingServer/servlet/DelFavoriteServlet?mode=android";
     private static String checkPostIfCollectedUrl = ip + "/ADNursingServer/servlet/IsFavoriteServlet?mode=android";
     private static String getCollectedPostUrl = ip + "/ADNursingServer/servlet/ViewOwnerFavoritesServlet?mode=android";
 
+    public static String getIp() {
+        return ip;
+    }
 
     private static String sendPostRequest(String url, Map<String, String> params) {
 
@@ -352,7 +357,7 @@ public class HttpUtils {
     }
 
 
-    public static int deletePostUrl(int userId, int postId) {
+    public static int deletePost(int userId, int postId) {
         int result = -1;
         Map<String, String> map = new HashMap<>();
         map.put("userId", String.valueOf(userId));
@@ -367,7 +372,25 @@ public class HttpUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return result;
+    }
 
+
+    public static int deleteReview(int userId, int reviewId) {
+        int result = -1;
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", String.valueOf(userId));
+        map.put("commentId", String.valueOf(reviewId));
+
+        String jsonString = sendPostRequest(deleteReviewUrl, map);
+
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            result = jsonObject.getInt("commentId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -495,6 +518,28 @@ public class HttpUtils {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 ReviewData reviewData = parseJsonToReview(jsonObject);
+                reviewDatas.add(reviewData);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return reviewDatas;
+    }
+
+
+    public static ArrayList<ReviewData> getReciewsWithUserId(int userId) {
+        ArrayList<ReviewData> reviewDatas = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", String.valueOf(userId));
+
+        String jsonString = sendPostRequest(getReviewWithUserIdUrl, map);
+
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(jsonString);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                ReviewData reviewData = parseJsonToReviewWithPostInfo(jsonObject);
                 reviewDatas.add(reviewData);
             }
         } catch (JSONException e) {
@@ -686,6 +731,22 @@ public class HttpUtils {
         String user_image = jsonObject.getString("userImgUrl");
 
         ReviewData reviewData = new ReviewData(new UserData(user_name, user_image), review_content, review_time, review_image);
+        return reviewData;
+    }
+
+
+    private static ReviewData parseJsonToReviewWithPostInfo(JSONObject jsonObject) throws JSONException {
+        int review_id = jsonObject.getInt("comment_id");
+        String review_content = jsonObject.getString("comment_text");
+        String review_time = jsonObject.getString("comment_date");
+        int post_id = jsonObject.getInt("post_id");
+        String user_name = jsonObject.getString("owner");
+        String review_image = jsonObject.getString("img_url");
+//        String user_image = jsonObject.getString("userImgUrl");
+        String post_image = jsonObject.getString("postImgUrl");
+        String post_title = jsonObject.getString("postTitle");
+
+        ReviewData reviewData = new ReviewData(review_id, new UserData(user_name), review_content, review_time, review_image, post_id, post_image, post_title);
         return reviewData;
     }
 

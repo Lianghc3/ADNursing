@@ -10,12 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
+import softwaredesign.adnursing.Activity.MyPostSetActivity;
 import softwaredesign.adnursing.Custom.MyListView;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.Data.PostData;
 import softwaredesign.adnursing.R;
+import softwaredesign.adnursing.Utils.ImageUtils;
 import softwaredesign.adnursing.Utils.ListViewImageUtils;
 
 public class PostPreviewAdapter extends BaseAdapter {
@@ -23,29 +27,10 @@ public class PostPreviewAdapter extends BaseAdapter {
     private Context myContext;                  // 上下文
     private ArrayList<PostData> myPostData;     // 数据列表
     private ViewHolder holder;
-    private ArrayList<Bitmap> bitmaps;          // 配图数据
-    private ArrayList<ImageView> imageViews;    // 配图对应的ImageView
-
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            if (bitmaps.get(msg.what) != null) {
-                imageViews.get(msg.what).setImageBitmap(bitmaps.get(msg.what));
-            }
-        }
-    };
 
     public PostPreviewAdapter(Context myContext, ArrayList<PostData> myPostData) {
         this.myContext = myContext;
         this.myPostData = myPostData;
-        bitmaps  = new ArrayList<>();
-        imageViews = new ArrayList<>();
-
-        if (myPostData != null) {
-            for (int i = 0; i < myPostData.size(); i++) {
-                bitmaps.add(null);
-                imageViews.add(null);
-            }
-        }
     }
 
     @Override
@@ -82,12 +67,8 @@ public class PostPreviewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        System.out.println("getView " + i + ": " + convertView);
+        ImageUtils.glideGetImage(myContext, myPostData.get(i).getImagesDir(), holder.vImage, R.mipmap.image_default);
 
-//        imageViews.set(i, holder.vImage);
-//        getImage(myPostData.get(i).getImagesDir(), i);
-        ListViewImageUtils listViewImageUtils = new ListViewImageUtils();
-        listViewImageUtils.setListViewImage(holder.vImage, myPostData.get(i).getImagesDir());
         holder.vTitle.setText(myPostData.get(i).getTitle());
         holder.vContent.setText(myPostData.get(i).getContent());
         holder.vTime.setText(myPostData.get(i).getModifiedTime());
@@ -112,33 +93,6 @@ public class PostPreviewAdapter extends BaseAdapter {
         myPostData.add(data);
         notifyDataSetChanged();
     }
-
-    /**
-     * 向服务器获取配图
-     * @param imagesDir
-     * @param i
-     */
-    private void getImage(String imagesDir, int i) {
-        System.out.println("getImage");
-        if (imagesDir.equals("")) {
-            return;
-        }
-        String tmpString;
-        if (imagesDir.indexOf("|") == -1) {
-            tmpString = imagesDir;
-        } else {
-            tmpString = imagesDir.substring(0, imagesDir.indexOf("|"));
-        }
-        final String dir = tmpString;
-        final int finalI = i;
-        new Thread() {
-            public void run() {
-                bitmaps.set(finalI, HttpUtils.loadImage(dir));
-                handler.sendEmptyMessage(finalI);
-            };
-        }.start();
-    }
-
 
     public void remove(int i) {
         myPostData.remove(i);

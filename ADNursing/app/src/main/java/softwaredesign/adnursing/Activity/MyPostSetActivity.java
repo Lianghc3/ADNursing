@@ -1,13 +1,14 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -57,6 +58,7 @@ public class MyPostSetActivity extends AppCompatActivity implements View.OnClick
                             bundle.putString("userImage", postPreviewAdapter.getItem(i).getUser().getImageDir());
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
 
@@ -85,7 +87,6 @@ public class MyPostSetActivity extends AppCompatActivity implements View.OnClick
                         }
                     });
                     refresh_ly.setRefreshing(false);
-//                    postPreviewAdapter.notifyDataSetChanged();
                     break;
                 case 0x002:
                     postPreviewAdapter.remove(msg.arg1);
@@ -179,7 +180,7 @@ public class MyPostSetActivity extends AppCompatActivity implements View.OnClick
             new Thread() {
                 public void run() {
                     System.out.println("delete post");
-                    int result = HttpUtils.deletePostUrl(HttpApplication.getUserId(), posId);
+                    int result = HttpUtils.deletePost(HttpApplication.getUserId(), posId);
                     System.out.println(result);
                     if (result == posId) {
                         Message msg = Message.obtain();
@@ -216,6 +217,7 @@ public class MyPostSetActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

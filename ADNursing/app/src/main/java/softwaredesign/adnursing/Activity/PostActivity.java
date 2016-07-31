@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -171,6 +172,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < imagePath.size(); i++) {
             file.add(new File(imagePath.get(i)));
         }
+        Toast.makeText(PostActivity.this, "正在保存", Toast.LENGTH_SHORT).show();
         // 创建线程上传数据
         new Thread() {
             public void run() {
@@ -208,6 +210,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void finishPage() {
         finish();
+        overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
     }
 
 
@@ -220,6 +223,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.top_bar_release_text:
                 attempRelease();

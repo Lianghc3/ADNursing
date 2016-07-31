@@ -10,7 +10,7 @@
         android:id="@+id/new_test_top_info"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:id="@+id/new_test_button_group_layout"
         android:layout_below="@id/new_test_top_info"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="10dp">
 
 
         <CheckBox
@@ -46,7 +46,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -58,7 +60,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -70,7 +74,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -82,7 +88,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -94,7 +102,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -106,7 +116,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -118,7 +130,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -130,7 +144,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
         <CheckBox
             android:layout_width="match_parent"
@@ -142,7 +158,9 @@
             android:layout_marginTop="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="#8b8b8b"
+            android:textSize="14dp" />
 
     </LinearLayout>
 
@@ -152,7 +170,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/new_test_button_group_layout"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
 
         <Button
             android:layout_width="120dp"
@@ -161,7 +180,8 @@
             android:id="@+id/new_test_last"
             android:layout_weight="1"
             android:background="@drawable/login_button"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="2dp" />
 
         <Button
             android:layout_width="120dp"
@@ -169,6 +189,7 @@
             android:text="下一页"
             android:id="@+id/new_test_next"
             android:layout_weight="1"
-            android:background="@drawable/login_button" />
+            android:background="@drawable/login_button"
+            android:layout_marginBottom="2dp" />
     </LinearLayout>
 </RelativeLayout>

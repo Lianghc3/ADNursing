@@ -1,8 +1,10 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +28,14 @@ import softwaredesign.adnursing.HttpApplication;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.R;
 import softwaredesign.adnursing.Data.TestData;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class TestResultActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView bottomHomeIcon;
-    private ImageView bottomCommunicateIcon;
-    private ImageView bottomTestIcon;
-    private ImageView bottomMyIcon;
+    private LinearLayout bottomHomeIcon;
+    private LinearLayout bottomCommunicateIcon;
+    private LinearLayout bottomTestIcon;
+    private LinearLayout bottomMyIcon;
     private ImageView test_result_sculpture;
     private Button test_begin_button;
     private TextView test_result_name;
@@ -55,14 +59,18 @@ public class TestResultActivity extends AppCompatActivity implements View.OnClic
                 case 0x001:
                     if (!testDatas.isEmpty()) {
                         test_result_times.setText("一共进行了"+String.valueOf(testDatas.size())+"次测试");
-                        test_result_recent_time.setText("最近测试时间"+testDatas.get(0).getTestDate());
+                        test_result_recent_time.setText("最近测试时间 "+testDatas.get(0).getTestDate());
                         initTableRow();
                     } else {
                         Toast.makeText(TestResultActivity.this, "记录为空，请尝试刷新", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case 0x002:
-                    test_result_sculpture.setImageBitmap(sculpture);
+                    if (userData.getImageDir().equals("")) {
+                        test_result_sculpture.setImageResource(R.mipmap.sculpture_unknown_default);
+                    } else {
+                        ImageUtils.glideGetImage(TestResultActivity.this, userData.getImageDir(), test_result_sculpture, R.mipmap.sculpture_unknown_default);
+                    }
                     break;
             }
         }
@@ -92,7 +100,6 @@ public class TestResultActivity extends AppCompatActivity implements View.OnClic
                 handler.sendEmptyMessage(0x001);
 
                 userData = HttpUtils.getUserInfoWithId(HttpApplication.getUserId());
-                sculpture= HttpUtils.loadImage(userData.getImageDir());
                 handler.sendEmptyMessage(0x002);
             };
         }.start();
@@ -100,10 +107,15 @@ public class TestResultActivity extends AppCompatActivity implements View.OnClic
 
 
     private void initView() {
-        bottomHomeIcon = (ImageView) findViewById(R.id.bottom_bar_home_icon);
-        bottomCommunicateIcon = (ImageView) findViewById(R.id.bottom_bar_communicate_icon);
-        bottomTestIcon = (ImageView) findViewById(R.id.bottom_bar_test_icon);
-        bottomMyIcon = (ImageView) findViewById(R.id.bottom_bar_my_icon);
+        View botton_bar = (View) findViewById(R.id.botton_bar);
+        bottomHomeIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_home);
+        bottomCommunicateIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_communicate);
+        bottomTestIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_test);
+        bottomMyIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_my);
+
+        TextView tv = (TextView) botton_bar.findViewById(R.id.bottom_bar_test_txt);
+        tv.setTextColor(Color.BLACK);
+
         test_result_sculpture = (ImageView) findViewById(R.id.test_result_sculpture);
         test_begin_button = (Button) findViewById(R.id.test_begin_button);
         test_result_name = (TextView) findViewById(R.id.test_result_name);
@@ -144,18 +156,22 @@ public class TestResultActivity extends AppCompatActivity implements View.OnClic
             case R.id.test_begin_button:
                 Intent intent = new Intent(TestResultActivity.this, NewTestActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_home_icon:
+            case R.id.bottom_bar_home:
                 intent = new Intent(TestResultActivity.this, HomeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_communicate_icon:
+            case R.id.bottom_bar_communicate:
                 intent = new Intent(TestResultActivity.this, CommunicateActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_my_icon:
+            case R.id.bottom_bar_my:
                 intent = new Intent(TestResultActivity.this, MyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

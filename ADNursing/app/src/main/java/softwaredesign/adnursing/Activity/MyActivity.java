@@ -1,9 +1,11 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,13 +24,14 @@ import softwaredesign.adnursing.HttpApplication;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.R;
 import softwaredesign.adnursing.Data.UserData;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class MyActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView bottomHomeIcon;
-    private ImageView bottomCommunicateIcon;
-    private ImageView bottomTestIcon;
-    private ImageView bottomMyIcon;
+    private LinearLayout bottomHomeIcon;
+    private LinearLayout bottomCommunicateIcon;
+    private LinearLayout bottomTestIcon;
+    private LinearLayout bottomMyIcon;
 
     private TextView my_name;
     private TextView my_id;
@@ -53,11 +56,12 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
                     if (userData != null) {
                         my_name.setText(userData.getName());
                         my_id.setText("默友号："+ HttpApplication.getUserId());
+                        if (userData.getImageDir().equals("")) {
+                            my_sculpture.setImageResource(R.mipmap.sculpture_unknown_default);
+                        } else {
+                            ImageUtils.glideGetImage(MyActivity.this, userData.getImageDir(), my_sculpture, R.mipmap.sculpture_unknown_default);
+                        }
                     }
-                    break;
-                case 0x002:
-                    my_sculpture.setImageBitmap(sculpture);
-//                    sculpture.recycle();
                     break;
             }
         }
@@ -83,12 +87,7 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
         new Thread() {
             public void run() {
                 userData = HttpUtils.getUserInfoWithId(HttpApplication.getUserId());
-//                System.out.println(userData.getName());
                 handler.sendEmptyMessage(0x001);
-                if (!userData.getImageDir().equals("") || userData.getImageDir() != null) {
-                    sculpture= HttpUtils.loadImage(userData.getImageDir());
-                    handler.sendEmptyMessage(0x002);
-                }
             };
         }.start();
     }
@@ -99,10 +98,14 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
      */
     private void initView() {
         // 获取View
-        bottomHomeIcon = (ImageView) findViewById(R.id.bottom_bar_home_icon);
-        bottomCommunicateIcon = (ImageView) findViewById(R.id.bottom_bar_communicate_icon);
-        bottomTestIcon = (ImageView) findViewById(R.id.bottom_bar_test_icon);
-        bottomMyIcon = (ImageView) findViewById(R.id.bottom_bar_my_icon);
+        View botton_bar = (View) findViewById(R.id.botton_bar);
+        bottomHomeIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_home);
+        bottomCommunicateIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_communicate);
+        bottomTestIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_test);
+        bottomMyIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_my);
+
+        TextView tv = (TextView) botton_bar.findViewById(R.id.bottom_bar_my_txt);
+        tv.setTextColor(Color.BLACK);
 
         my_collection = (LinearLayout) findViewById(R.id.my_collection);
         my_post = (LinearLayout) findViewById(R.id.my_post);
@@ -139,17 +142,20 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
         Intent intent;
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.bottom_bar_home_icon:
+            case R.id.bottom_bar_home:
                 intent = new Intent(MyActivity.this, HomeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_communicate_icon:
+            case R.id.bottom_bar_communicate:
                 intent = new Intent(MyActivity.this, CommunicateActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_test_icon:
+            case R.id.bottom_bar_test:
                 intent = new Intent(MyActivity.this, TestActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.my_collection:
                 intent = new Intent(MyActivity.this, MyPostSetActivity.class);
@@ -157,6 +163,7 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
                 bundle.putString("title", "收藏");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.my_post:
                 intent = new Intent(MyActivity.this, MyPostSetActivity.class);
@@ -164,14 +171,25 @@ public class MyActivity extends AppCompatActivity implements View.OnClickListene
                 bundle.putString("title", "我的帖子");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
+                break;
+            case R.id.my_review:
+                intent = new Intent(MyActivity.this, MyReviewSetActivity.class);
+                bundle = new Bundle();
+                bundle.putString("title", "我的评论");
+                intent.putExtras(bundle);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.my_setting:
                 intent = new Intent(MyActivity.this, SettingActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.my_basic_info:
                 intent = new Intent(MyActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
         }
     }

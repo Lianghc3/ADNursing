@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -35,8 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0x001:
+                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                     finish();
                     break;
                 case 0x002:
@@ -57,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         register_password_text = (TextView) findViewById(R.id.register_password_text);
         register_confirm_password_text = (TextView) findViewById(R.id.register_confirm_password_text);
         Button register_button = (Button) findViewById(R.id.register_button);
-        ImageView register_top_bar_back_icon = (ImageView) findViewById(R.id.register_top_bar_back_icon);
+        ImageView top_bar_back_icon = (ImageView) findViewById(R.id.top_bar_back_icon);
 
         // 设置Listener
         register_button.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        register_top_bar_back_icon.setOnClickListener(new View.OnClickListener() {
+        top_bar_back_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
             }
         });
     }

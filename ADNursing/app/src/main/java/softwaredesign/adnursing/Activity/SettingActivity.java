@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -115,6 +116,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.setting_logout_bar:
                 sp.edit().clear().commit();

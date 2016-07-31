@@ -48,16 +48,11 @@
         <activity android:name=".Activity.SettingActivity" />
         <activity
             android:name=".Activity.TestActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".Activity.TestResultActivity" />
         <activity android:name=".Activity.NewTestActivity" />
         <activity android:name=".Activity.MyPostSetActivity" />
         <activity android:name=".Activity.MyReviewSetActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
     </application>
 

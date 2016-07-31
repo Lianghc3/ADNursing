@@ -1,5 +1,6 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -28,6 +29,7 @@ import softwaredesign.adnursing.HttpApplication;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.R;
 import softwaredesign.adnursing.Data.UserData;
+import softwaredesign.adnursing.Utils.ImageUtils;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,6 +63,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             profile_edit_gender_spinner.setSelection(1);
                         } else if (userData.getGender().equals("女")) {
                             profile_edit_gender_spinner.setSelection(2);
+                        }
+                        if (userData.getImageDir().equals("")) {
+                            profile_edit_sculpture.setImageResource(R.mipmap.sculpture_unknown_default);
+                        } else {
+                            ImageUtils.glideGetImage(ProfileActivity.this, userData.getImageDir(), profile_edit_sculpture, R.mipmap.sculpture_unknown_default);
+
                         }
                     }
                     break;
@@ -96,9 +104,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 userData = HttpUtils.getUserInfoWithId(HttpApplication.getUserId());
                 System.out.println(userData.getName());
                 handler.sendEmptyMessage(0x001);
-
-                sculpture= HttpUtils.loadImage(userData.getImageDir());
-                handler.sendEmptyMessage(0x003);
             };
         }.start();
     }
@@ -166,8 +171,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
                 int resultId = HttpUtils.uploadUserInfo(HttpApplication.getUserId(), gender, address, diggest);
                 System.out.println(resultId);
-                System.out.println(sculptureDir);
-                if (sculptureDir != null && !sculptureDir.equals("")) {
+                if (sculptureDir != null) {
                     File file = new File(sculptureDir);
                     System.out.println(file);
 
@@ -213,6 +217,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.top_bar_back_icon:
                 finish();
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.profile_edit_address_text:
                 // 显示地址选择器

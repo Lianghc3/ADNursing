@@ -1,17 +1,22 @@
 package softwaredesign.adnursing.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import softwaredesign.adnursing.ApplicationManager;
+import softwaredesign.adnursing.Custom.RefreshLayout;
 import softwaredesign.adnursing.Utils.HttpUtils;
 import softwaredesign.adnursing.Custom.MyListView;
 import softwaredesign.adnursing.Data.PostData;
@@ -27,10 +33,10 @@ import softwaredesign.adnursing.R;
 
 public class CommunicateActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView bottomHomeIcon;
-    private ImageView bottomCommunicateIcon;
-    private ImageView bottomTestIcon;
-    private ImageView bottomMyIcon;
+    private LinearLayout bottomHomeIcon;
+    private LinearLayout bottomCommunicateIcon;
+    private LinearLayout bottomTestIcon;
+    private LinearLayout bottomMyIcon;
 
     private TextView post_set_topic_1;
     private TextView post_set_topic_2;
@@ -45,6 +51,7 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
     private View select_bar_hottest;
 
     private MyListView post_list;
+//    private SwipeRefreshLayout refresh_ly;
 
     private String postOrder = "newest";        // 帖子默认排序为按照时间排序
     private String postType = "病症疑问";       // 帖子默认类型为“病症疑问”
@@ -72,6 +79,7 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
 
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                         }
                     });
                     break;
@@ -103,10 +111,11 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
      */
     private void initView() {
         // 获取View
-        bottomHomeIcon = (ImageView) findViewById(R.id.bottom_bar_home_icon);
-        bottomCommunicateIcon = (ImageView) findViewById(R.id.bottom_bar_communicate_icon);
-        bottomTestIcon = (ImageView) findViewById(R.id.bottom_bar_test_icon);
-        bottomMyIcon = (ImageView) findViewById(R.id.bottom_bar_my_icon);
+        View botton_bar = (View) findViewById(R.id.botton_bar);
+        bottomHomeIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_home);
+        bottomCommunicateIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_communicate);
+        bottomTestIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_test);
+        bottomMyIcon = (LinearLayout) botton_bar.findViewById(R.id.bottom_bar_my);
         post_set_topic_1 = (TextView) findViewById(R.id.post_set_topic_1);
         post_set_topic_2 = (TextView) findViewById(R.id.post_set_topic_2);
         post_set_topic_3 = (TextView) findViewById(R.id.post_set_topic_3);
@@ -116,7 +125,12 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
         select_bar_newest = (View) findViewById(R.id.select_bar_newest);
         select_bar_hottest = (View) findViewById(R.id.select_bar_hottest);
         top_bar_plus_icon = (ImageView) findViewById(R.id.top_bar_plus_icon);
+//        refresh_ly = (SwipeRefreshLayout) findViewById(R.id.refresh_ly);
         post_list = (MyListView) findViewById(R.id.post_list);
+
+
+        TextView tv = (TextView) botton_bar.findViewById(R.id.bottom_bar_communicate_txt);
+        tv.setTextColor(Color.BLACK);
 
         // 设置Listener
         bottomHomeIcon.setOnClickListener(this);
@@ -127,6 +141,9 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
         post_set_topic_2.setOnClickListener(this);
         post_set_topic_3.setOnClickListener(this);
         post_set_topic_4.setOnClickListener(this);
+
+        post_set_topic_1.setSelected(true);
+
         select_text_newest.setChecked(true);
         select_bar_hottest.setVisibility(View.INVISIBLE);
         top_bar_plus_icon.setOnClickListener(this);
@@ -190,6 +207,18 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    private void clearTopicColor() {
+//        post_set_topic_1.setBackgroundColor(getResources().getColor(R.color.CubeGray));
+//        post_set_topic_2.setBackgroundColor(getResources().getColor(R.color.CubeGray));
+//        post_set_topic_3.setBackgroundColor(getResources().getColor(R.color.CubeGray));
+//        post_set_topic_4.setBackgroundColor(getResources().getColor(R.color.CubeGray));
+        post_set_topic_1.setSelected(false);
+        post_set_topic_2.setSelected(false);
+        post_set_topic_3.setSelected(false);
+        post_set_topic_4.setSelected(false);
+    }
+
+
     /**
      * 设置View的OnClick监听器
      * @param view
@@ -199,37 +228,49 @@ public class CommunicateActivity extends AppCompatActivity implements View.OnCli
         Intent intent;
         Bundle bundle;
         switch (view.getId()) {
-            case R.id.bottom_bar_home_icon:
+            case R.id.bottom_bar_home:
                 intent = new Intent(CommunicateActivity.this, HomeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_test_icon:
+            case R.id.bottom_bar_test:
                 intent = new Intent(CommunicateActivity.this, TestActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
-            case R.id.bottom_bar_my_icon:
+            case R.id.bottom_bar_my:
                 intent = new Intent(CommunicateActivity.this, MyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.top_bar_plus_icon:
                 intent = new Intent(CommunicateActivity.this, PostActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_none, R.anim.anim_none);
                 break;
             case R.id.post_set_topic_1:
+                clearTopicColor();
+                post_set_topic_1.setSelected(true);
                 postType = "病症疑问";
                 requestPost();
                 break;
             case R.id.post_set_topic_2:
+                clearTopicColor();
+                post_set_topic_2.setSelected(true);
                 postType = "名医推荐";
                 requestPost();
                 requestPostNum();
                 break;
             case R.id.post_set_topic_3:
+                clearTopicColor();
+                post_set_topic_3.setSelected(true);
                 postType = "药物推荐";
                 requestPost();
                 requestPostNum();
                 break;
             case R.id.post_set_topic_4:
+                clearTopicColor();
+                post_set_topic_4.setSelected(true);
                 postType = "交流分享";
                 requestPost();
                 requestPostNum();
