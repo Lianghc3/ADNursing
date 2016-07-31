@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_page"
+    tools:context=".Activity.HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/top_bar"
+        android:background="@color/White"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/top_bar_info_txt"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="海默护理" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/top_bar_search_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/btn_search"
+            android:layout_marginRight="-10dp"
+            android:padding="10dp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:id="@+id/top_bar_divd"
+        android:background="@color/DivdGray"
+        android:layout_below="@id/top_bar"/>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/botton_bar"
+        layout="@layout/layout_bottom_navi_bar"
+        android:layout_alignParentBottom="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:id="@+id/bottom_bar_divd"
+        android:background="@color/DivdGray"
+        android:layout_above="@id/botton_bar"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@id/top_bar_divd"
+        android:layout_above="@id/bottom_bar_divd"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/home_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/DivdGray" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/home_banner_points"
+                    android:gravity="center_horizontal"
+                    android:layout_alignBottom="@id/home_banner"
+                    android:layout_marginBottom="20dp">
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/post_info_1"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="15dp"
+                        android:background="@color/DivdGray"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="护理须知"
+                        android:id="@+id/article_type_1"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="more"
+                            android:id="@+id/article_more_1"
+                            android:textSize="12dp"
+                            android:layout_marginLeft="5dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <softwaredesign.adnursing.Custom.MyListView
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/notice_post_list"
+                    android:divider="@null">
+                </softwaredesign.adnursing.Custom.MyListView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <softwaredesign.adnursing.Custom.RoundImageView
+                    xmlns:maple="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:id="@+id/imageView4"
+                    android:src="@mipmap/banner0"
+                    android:scaleType="centerCrop"
+                    maple:maskType="ROUNDRECTANGLE"
+                    maple:borderWidth_Ri="2px"
+                    maple:borderColor_Ri="@color/DivdGray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/post_info_2">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="15dp"
+                        android:background="@color/DivdGray"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="临床新闻"
+                        android:id="@+id/article_type_2"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="more"
+                            android:id="@+id/article_more_2"
+                            android:textSize="12dp"
+                            android:layout_marginLeft="5dp" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <softwaredesign.adnursing.Custom.MyListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/news_post_list"
+                    android:divider="@null">
+                </softwaredesign.adnursing.Custom.MyListView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/post_info_4"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="15dp"
+                        android:background="@color/DivdGray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="活跃用户"
+                        android:id="@+id/article_type_4"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <softwaredesign.adnursing.Custom.RoundImageView
+                        xmlns:maple="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/sculpture_1"
+                        maple:maskType="CIRCLE"
+                        maple:borderWidth_Ri="2px"
+                        maple:borderColor_Ri="@color/DivdGray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="王源"
+                        android:id="@+id/textView4"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:layout_marginTop="5dp"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <softwaredesign.adnursing.Custom.RoundImageView
+                        xmlns:maple="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/sculpture_2"
+                        maple:maskType="CIRCLE"
+                        maple:borderWidth_Ri="2px"
+                        maple:borderColor_Ri="@color/DivdGray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="王俊凯"
+                        android:id="@+id/textView5"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:layout_marginTop="5dp"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <softwaredesign.adnursing.Custom.RoundImageView
+                        xmlns:maple="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/sculpture_3"
+                        maple:maskType="CIRCLE"
+                        maple:borderWidth_Ri="2px"
+                        maple:borderColor_Ri="@color/DivdGray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="连沛轩"
+                        android:id="@+id/textView7"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:layout_marginTop="5dp"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <softwaredesign.adnursing.Custom.RoundImageView
+                        xmlns:maple="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/sculpture_4"
+                        maple:maskType="CIRCLE"
+                        maple:borderWidth_Ri="2px"
+                        maple:borderColor_Ri="@color/DivdGray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="张学友"
+                        android:id="@+id/textView8"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:layout_marginTop="5dp"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <!--<ImageView-->
+                    <!--android:layout_width="35dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:id="@+id/imageView5"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:src="@mipmap/btn_forward_arrow" />-->
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:gravity="center_vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/post_info_3">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="15dp"
+                        android:background="@color/DivdGray"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="研究前沿"
+                        android:id="@+id/article_type_3"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerHorizontal="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="more"
+                            android:id="@+id/article_more_3"
+                            android:textSize="12dp"
+                            android:layout_marginLeft="5dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <softwaredesign.adnursing.Custom.MyListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/research_post_list"
+                    android:divider="@null">
+                </softwaredesign.adnursing.Custom.MyListView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
